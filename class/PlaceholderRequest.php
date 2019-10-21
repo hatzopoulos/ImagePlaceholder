@@ -18,56 +18,56 @@
         * @return array
         */
             public static function parseParameters() {
-                    self::cachingHeaders(); // Verify if the browser has a cached version 
-                    
+                    self::cachingHeaders(); // Verify if the browser has a cached version
+
                     self::$requestPath = self::requestPath();
-                    self::$queryString = self::queryString();			
+                    self::$queryString = self::queryString();
 
                     if(self::$requestPath) {
                             // Merge two arrays
                             // Order is important ! The query string shouldn't erase request path !
-                            $config = array_merge(self::$queryString, self::$requestPath); 
+                            $config = array_merge(self::$queryString, self::$requestPath);
 
                             self::$config = $config;
 
                             return true;
                     }
 
-                    return false;			
+                    return false;
             }
-        
-            
+
+
        /**
         * Stop the script if the browser already has image in its cache
         */
-          
+
             public static function cachingHeaders () {
 					header("Cache-Control: private, max-age=10800, pre-check=10800");
 					header("Pragma: private");
 					header("Expires: " . date(DATE_RFC822,strtotime("1 day")));
-			
-			
+
+
 					if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
 						header('Last-Modified: '.$_SERVER['HTTP_IF_MODIFIED_SINCE'],true,304);
 						exit;
 					}
 					else {
-						header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT', true, 200);    
+						header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT', true, 200);
 					}
             }
 
-            
+
        /**
         * Extract string from request & parse it (main parameters)
         *
         * @return array
         */
-            public static function requestPath() {	
+            public static function requestPath() {
                     $scriptName = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']) );
                     $configString = substr_replace($_SERVER['REQUEST_URI'], '', 0, strlen($scriptName));
 
                     // Clear query string from path
-                    $configString = preg_replace('/\?.*/', '', $configString);			
+                    $configString = preg_replace('/\?.*/', '', $configString);
 
                     if($configString!='') {
                             // Numeric indexed URL params (extracted from path)
@@ -91,7 +91,7 @@
         *
         * @return array
         */
-            public static function parseRequestPath($params) {	
+            public static function parseRequestPath($params) {
                     $requestPathConfig = array();
 
                     // First parameter is numeric only (but 'x' allowed) !!
@@ -122,17 +122,17 @@
         *
         * @return array
         */
-            public static function queryString() {				
+            public static function queryString() {
                     $queryString = array();
                     if (!empty($_SERVER['QUERY_STRING'])) {
 
-                    if ( function_exists('mb_parse_str') )
-                            mb_parse_str($_SERVER['QUERY_STRING'], $queryString);
-                    else
-                            parse_str($_SERVER['QUERY_STRING'], $queryString);
+                        if ( function_exists('mb_parse_str') )
+                                mb_parse_str($_SERVER['QUERY_STRING'], $queryString);
+                        else
+                                parse_str($_SERVER['QUERY_STRING'], $queryString);
                     }
 
-                    return $queryString; 
+                    return $queryString;
             }
 
 

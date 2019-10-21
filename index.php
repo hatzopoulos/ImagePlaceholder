@@ -6,7 +6,7 @@
  */
 
     /**
-     * Required classes  
+     * Required classes
      */
         require('class/PlaceholderRequest.php');
         require('class/PlaceholderImage.php');
@@ -17,9 +17,9 @@
      */
 
         // A good query makes me happy
-        if(PlaceholderRequest::parseParameters()) {		
+        if(PlaceholderRequest::parseParameters()) {
                 $placeholder = new PlaceholderImage( PlaceholderRequest::$config );
-                
+
                 if(isset($_GET['forceDownload']))
                     $placeholder->forceDownload();
                 else
@@ -28,9 +28,9 @@
 
 
     /**
-     * Home page 
+     * Home page
      */
-        
+
         include('home.php');
 
 ?>

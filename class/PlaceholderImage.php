@@ -4,7 +4,7 @@
  * Create image FPO (For Position Only)
  */
 
-    class PlaceholderImage {	
+    class PlaceholderImage {
 
         public $width = 250;
         public $height = 250;
@@ -20,7 +20,7 @@
        /**
         * Constructor
         */
-            public function __construct($config) { 
+            public function __construct($config) {
                     $this->width = (!empty($config['width'])) ? $config['width'] : $this->width;
                     $this->height = (!empty($config['height'])) ? $config['height'] : $this->height;
 
@@ -28,15 +28,15 @@
                     $this->textColor = (!empty($config['textColor'])) ? $config['textColor'] : $this->textColor;
 
                     $this->text = (!empty($config['text'])) ? $config['text'] : $this->text;
-                    
-                    $this->createPlaceholder(); 
+
+                    $this->createPlaceholder();
             }
 
-            
+
        /**
         * Create image placeholder
         */
-            public function createPlaceholder() {		
+            public function createPlaceholder() {
                     // Configuration
                     $w = $this->width;
                     $h = $this->height;
@@ -53,8 +53,8 @@
                     $lineThickness = 1;
 
 
-                    // Create image			
-                    $this->image = imagecreatetruecolor($w, $h); 
+                    // Create image
+                    $this->image = imagecreatetruecolor($w, $h);
                     imageantialias($this->image, true );
 
 
@@ -65,15 +65,15 @@
 
 
                     // Draw background
-                    imagefill($this->image, 0, 0, $bgColor); 
+                    imagefill($this->image, 0, 0, $bgColor);
 
 
-                    // Add cross                                
+                    // Add cross
                     $this->imagelinethick($this->image, 0, 0, $w, $h, $lineColor, $lineThickness);
                     $this->imagelinethick($this->image, $w, 0, 0, $h, $lineColor, $lineThickness);
 
 
-                    // Write text                           
+                    // Write text
                     list($x, $y, $textWidth, $textHeight) = $this->imageTTFCenter($this->image, $text, $fontFile, $fontSize);
 
                     $bgx1 = $x - $bgPadding;
@@ -84,29 +84,29 @@
 
                     imagefilledrectangle($this->image, $bgx1, $bgy1, $bgx2, $bgy2, $bgColor); // Draw text background
                     imagettftext($this->image, $fontSize, 0, $x, $y, $textColor, $fontFile, $text);
-                    
+
                     // Generate filename
                     $this->filename = ($w . "x". $h) . '_' . substr( md5(uniqid(rand(), true)), 0, 5) . '.png';
             }
 
-            
+
        /**
         * Output image in browser
         */
-            public function output() {	
+            public function output() {
                 // Output in browser
-                header("Content-Type: image/png"); 
+                header("Content-Type: image/png");
                 //header("Content-disposition: inline; filename=" . $this->filename); // RFC2183: http://www.ietf.org/rfc/rfc2183.txt
-                
+
                 imagepng($this->image);
 
                 // Free memory
                 imagedestroy($this->image);
 
                 exit;
-            }   
+            }
 
-            
+
        /**
         * Force download of image placeholder
         */
@@ -114,25 +114,25 @@
                 // Download it
                 header("Content-Type: image/png");
                 header("Content-disposition: attachment; filename=" . $this->filename); // RFC2183: http://www.ietf.org/rfc/rfc2183.txt
-                
+
                 imagepng($this->image);
 
                 // Free memory
                 imagedestroy($this->image);
-                           
-                exit;
-            }  
 
-            
+                exit;
+            }
+
+
        /**
         * Return text block position (both horizontally/vertically centered)
-        * 
+        *
         * @param resource $image
         * @param string $text
         * @param string $font
         * @param float $size
-        * 
-        * @return array 
+        *
+        * @return array
         */
             public function imageTTFCenter($image, $text, $font, $size) {
                     // Find the size of the image
@@ -149,15 +149,15 @@
                     // Compute centering
                     $x = ($imageWidth - $textWidth) / 2;
                     $y = ($imageHeight + $textHeight) / 2;
-                    //$y -= $textHeight; // Y-ordinate sets the position of the font baseline 
+                    //$y -= $textHeight; // Y-ordinate sets the position of the font baseline
 
                     return array($x, $y, $textWidth, $textHeight);
             }
 
-            
+
        /**
         * Drawing a thick line
-        *  
+        *
         * @param resource $image
         * @param int $x1
         * @param int $y1
@@ -165,7 +165,7 @@
         * @param int $y2
         * @param string $color
         * @param int $thick
-        * 
+        *
         * @return resource
         */
             public function imagelinethick($image, $x1, $y1, $x2, $y2, $color, $thick = 1) {
@@ -180,7 +180,7 @@
                     );
 
                     return  imagefilledpolygon($image, $points, 4, $color);
-            } 
+            }
 
 
        /**

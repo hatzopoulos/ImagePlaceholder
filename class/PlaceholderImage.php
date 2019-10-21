@@ -47,8 +47,8 @@
                     $text = ($this->text!='')  ?  $this->text  :  ($w . "x". $h);
                     $bgPadding = 5;
 
-                    $fontSize = 20;
                     $fontFile = ($this->fontFile!='')  ?  $this->fontFile  :  './Arvo-Regular.ttf';
+                    $fontSize = min(20, floor($w / strlen($text)), floor($h / 3));
 
                     $lineThickness = 1;
 

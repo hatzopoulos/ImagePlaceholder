@@ -124,11 +124,13 @@
         */
             public static function queryString() {				
                     $queryString = array();
+                    if (!empty($_SERVER['QUERY_STRING'])) {
 
                     if ( function_exists('mb_parse_str') )
                             mb_parse_str($_SERVER['QUERY_STRING'], $queryString);
                     else
                             parse_str($_SERVER['QUERY_STRING'], $queryString);
+                    }
 
                     return $queryString; 
             }
